@@ -23,10 +23,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "https://*.vercel.app",
-        "*"
+         "https://onchat-acs2-fty5edjs0-nitish-dev01s-projects.vercel.app"
     ],
     allow_credentials=True,
     allow_methods=["*"],
