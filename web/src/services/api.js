@@ -2,6 +2,8 @@ import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
 
+console.log('API_URL:', API_URL); // Debug log
+
 const api = axios.create({
   baseURL: API_URL,
   timeout: 10000,
@@ -18,6 +20,20 @@ api.setToken = (token) => {
     delete api.defaults.headers.common['Authorization'];
   }
 };
+
+// Add response interceptor for debugging
+api.interceptors.response.use(
+  response => response,
+  error => {
+    console.error('API Error:', {
+      status: error.response?.status,
+      data: error.response?.data,
+      message: error.message,
+      url: error.config?.url
+    });
+    return Promise.reject(error);
+  }
+);
 
 // Auth
 export const login = (email, password) => api.post('/auth/login', { email, password });

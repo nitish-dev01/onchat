@@ -15,7 +15,7 @@ from chat_service.core.config import settings
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 
-@router.post("/register", response_model=UserResponse, status_code=201)
+@router.post("/register", response_model=Token, status_code=201)
 async def register(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
     # Check if email exists
     result = await db.execute(select(User).where(User.email == user_data.email))
@@ -39,7 +39,14 @@ async def register(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
     await db.flush()
     await db.refresh(user)
 
-    return user
+    # Create and return access token
+    access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = create_access_token(
+        data={"sub": user.id},
+        expires_delta=access_token_expires
+    )
+
+    return {"access_token": access_token, "token_type": "bearer"}
 
 
 @router.post("/login", response_model=Token)
