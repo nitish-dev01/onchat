@@ -1,29 +1,7 @@
-from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey, Text, Table
+from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey, Text
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from chat_service.models.database import Base
-
-
-# Association table for user channels
-user_channels = Table(
-    'user_channels', Base.metadata,
-    Column('id', Integer, primary_key=True),
-    Column('user_id', Integer, ForeignKey('users.id')),
-    Column('channel_id', Integer, ForeignKey('channels.id')),
-    Column('role', String(20), default='member'),
-    Column('joined_at', DateTime, server_default=func.now()),
-    Column('last_read_at', DateTime)
-)
-
-# Association table for reactions
-reactions = Table(
-    'reactions', Base.metadata,
-    Column('id', Integer, primary_key=True),
-    Column('message_id', Integer, ForeignKey('messages.id')),
-    Column('user_id', Integer, ForeignKey('users.id')),
-    Column('emoji', String(10), nullable=False),
-    Column('created_at', DateTime, server_default=func.now())
-)
 
 
 class User(Base):
@@ -81,4 +59,25 @@ class Contact(Base):
     contact_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     is_blocked = Column(Boolean, default=False)
     is_muted = Column(Boolean, default=False)
+    created_at = Column(DateTime, server_default=func.now())
+
+
+class UserChannel(Base):
+    __tablename__ = "user_channels"
+
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    channel_id = Column(Integer, ForeignKey("channels.id"), nullable=False)
+    role = Column(String(20), default="member")
+    joined_at = Column(DateTime, server_default=func.now())
+    last_read_at = Column(DateTime)
+
+
+class Reaction(Base):
+    __tablename__ = "reactions"
+
+    id = Column(Integer, primary_key=True, index=True)
+    message_id = Column(Integer, ForeignKey("messages.id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    emoji = Column(String(10), nullable=False)
     created_at = Column(DateTime, server_default=func.now())
