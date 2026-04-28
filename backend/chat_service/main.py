@@ -29,7 +29,22 @@ app.add_middleware(
     expose_headers=["*"],
     max_age=3600,
 )
+from fastapi import Request
 
+@app.middleware("http")
+async def force_cors(request: Request, call_next):
+    response = await call_next(request)
+
+    origin = request.headers.get("origin")
+
+    if origin and ".vercel.app" in origin:
+        response.headers["Access-Control-Allow-Origin"] = origin
+
+    response.headers["Access-Control-Allow-Credentials"] = "true"
+    response.headers["Access-Control-Allow-Headers"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "*"
+
+    return response
 # Include routers
 app.include_router(auth.router, prefix=settings.API_V1_STR)
 app.include_router(users.router, prefix=settings.API_V1_STR)
