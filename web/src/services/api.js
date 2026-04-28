@@ -19,31 +19,9 @@ api.setToken = (token) => {
   }
 };
 
-api.get = async (url, config = {}) => {
-  const response = await api.get(url, config);
-  return response.data;
-};
-
-api.post = async (url, data = {}, config = {}) => {
-  const response = await api.post(url, data, config);
-  return response.data;
-};
-
-api.put = async (url, data = {}, config = {}) => {
-  const response = await api.put(url, data, config);
-  return response.data;
-};
-
-api.delete = async (url, config = {}) => {
-  const response = await api.delete(url, config);
-  return response.data;
-};
-
 // Auth
 export const login = (email, password) => api.post('/auth/login', { email, password });
 export const register = (data) => api.post('/auth/register', data);
-export const getMe = () => api.get('/auth/me');
-export const updateMe = (data) => api.put('/auth/me', data);
 
 // Users
 export const searchUsers = (query) => api.get('/users/search', { params: { q: query } });

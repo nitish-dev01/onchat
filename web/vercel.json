@@ -5,11 +5,11 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://onchat-api.railway.app/api/:path*"
+      "destination": "https://onchat-production.up.railway.app/api/:path*"
     },
     {
       "source": "/socket.io/:path*",
-      "destination": "https://onchat-api.railway.app/socket.io/:path*"
+      "destination": "https://onchat-production.up.railway.app/socket.io/:path*"
     }
   ]
 }

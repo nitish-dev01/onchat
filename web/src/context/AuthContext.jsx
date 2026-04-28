@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { getMe } from '../services/api';
 import api from '../services/api';
 import socket from '../services/socket';
 
@@ -13,43 +12,39 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     if (token) {
       api.setToken(token);
-      loadUser();
-    } else {
-      setLoading(false);
-    }
-  }, []);
-
-  const loadUser = async () => {
-    try {
-      const userData = await getMe();
-      setUser(userData);
+      // User data is stored in localStorage after login
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        setUser(JSON.parse(userData));
+      }
       socket.connect(token);
-    } catch {
-      localStorage.removeItem('token');
-      setToken(null);
-    } finally {
-      setLoading(false);
     }
-  };
+    setLoading(false);
+  }, []);
 
   const login = async (email, password) => {
     const response = await api.post('/auth/login', { email, password });
     localStorage.setItem('token', response.access_token);
+    localStorage.setItem('user', JSON.stringify(response));
     api.setToken(response.access_token);
     setToken(response.access_token);
-    await loadUser();
+    setUser(response);
+    socket.connect(response.access_token);
   };
 
   const register = async (data) => {
     const response = await api.post('/auth/register', data);
     localStorage.setItem('token', response.access_token);
+    localStorage.setItem('user', JSON.stringify(response));
     api.setToken(response.access_token);
     setToken(response.access_token);
-    await loadUser();
+    setUser(response);
+    socket.connect(response.access_token);
   };
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     setToken(null);
     setUser(null);
     socket.disconnect();
