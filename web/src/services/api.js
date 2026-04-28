@@ -22,6 +22,8 @@ api.setToken = (token) => {
 // Auth
 export const login = (email, password) => api.post('/auth/login', { email, password });
 export const register = (data) => api.post('/auth/register', data);
+export const getMe = () => api.get('/auth/me');
+export const updateMe = (data) => api.put('/auth/me', data);
 
 // Users
 export const searchUsers = (query) => api.get('/users/search', { params: { q: query } });
