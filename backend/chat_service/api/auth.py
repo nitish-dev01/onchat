@@ -42,11 +42,26 @@ async def register(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
     # Create and return access token
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.id},
+        data={"sub": str(user.id)},
         expires_delta=access_token_expires
     )
 
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": {
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+            "full_name": user.full_name,
+            "avatar_url": user.avatar_url,
+            "bio": user.bio,
+            "is_active": user.is_active,
+            "is_online": user.is_online,
+            "last_seen": str(user.last_seen) if user.last_seen else None,
+            "created_at": str(user.created_at) if user.created_at else None,
+        }
+    }
 
 
 @router.post("/login", response_model=Token)
@@ -65,11 +80,26 @@ async def login(login_data: LoginRequest, db: AsyncSession = Depends(get_db)):
 
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.id},
+        data={"sub": str(user.id)},
         expires_delta=access_token_expires
     )
 
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "user": {
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+            "full_name": user.full_name,
+            "avatar_url": user.avatar_url,
+            "bio": user.bio,
+            "is_active": user.is_active,
+            "is_online": user.is_online,
+            "last_seen": str(user.last_seen) if user.last_seen else None,
+            "created_at": str(user.created_at) if user.created_at else None,
+        }
+    }
 
 
 @router.get("/me", response_model=UserResponse)
