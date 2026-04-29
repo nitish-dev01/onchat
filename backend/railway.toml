@@ -1,12 +1,6 @@
 [railway]
-[railway.deploy]
-rootDirectory = "backend"
-
-[railway.deploy.startCommand]
-command = "cd chat_service && uvicorn chat_service.main:app --host 0.0.0.0 --port 8000"
+[deploy]
+startCommand = "uvicorn chat_service.main:app --host 0.0.0.0 --port 8000"
 
 [http]
 port = 8000
-
-[http.cors]
-origin = "https://onchat-acs2-g2jkn939q-nitish-dev01s-projects.vercel.app"
