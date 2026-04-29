@@ -37,7 +37,7 @@ async def force_cors(request: Request, call_next):
 
     origin = request.headers.get("origin")
 
-    if origin and ".vercel.app" in origin:
+    if origin and (".vercel.app" in origin or ".railway.app" in origin or "railway.com" in origin):
         response.headers["Access-Control-Allow-Origin"] = origin
 
     response.headers["Access-Control-Allow-Credentials"] = "true"
