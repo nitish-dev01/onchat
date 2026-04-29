@@ -25,7 +25,14 @@ export default function AuthScreen() {
         });
       }
     } catch (err) {
-      setError(err.response?.data?.detail || 'Authentication failed');
+      const detail = err.response?.data?.detail;
+      if (Array.isArray(detail)) {
+        setError(detail.map(e => e.msg || JSON.stringify(e)).join(', '));
+      } else if (typeof detail === 'string') {
+        setError(detail);
+      } else {
+        setError(err.response?.data?.message || 'Authentication failed');
+      }
     } finally {
       setLoading(false);
     }
