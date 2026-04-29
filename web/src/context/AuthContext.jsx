@@ -24,22 +24,28 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     const response = await api.post('/auth/login', { email, password });
-    localStorage.setItem('token', response.access_token);
-    localStorage.setItem('user', JSON.stringify(response));
-    api.setToken(response.access_token);
-    setToken(response.access_token);
-    setUser(response);
-    socket.connect(response.access_token);
+    localStorage.setItem('token', response.data.access_token);
+    api.setToken(response.data.access_token);
+    setToken(response.data.access_token);
+
+    // Fetch user data after login
+    const userResponse = await api.get('/auth/me');
+    localStorage.setItem('user', JSON.stringify(userResponse.data));
+    setUser(userResponse.data);
+    socket.connect(response.data.access_token);
   };
 
   const register = async (data) => {
     const response = await api.post('/auth/register', data);
-    localStorage.setItem('token', response.access_token);
-    localStorage.setItem('user', JSON.stringify(response));
-    api.setToken(response.access_token);
-    setToken(response.access_token);
-    setUser(response);
-    socket.connect(response.access_token);
+    localStorage.setItem('token', response.data.access_token);
+    api.setToken(response.data.access_token);
+    setToken(response.data.access_token);
+
+    // Fetch user data after register
+    const userResponse = await api.get('/auth/me');
+    localStorage.setItem('user', JSON.stringify(userResponse.data));
+    setUser(userResponse.data);
+    socket.connect(response.data.access_token);
   };
 
   const logout = () => {
