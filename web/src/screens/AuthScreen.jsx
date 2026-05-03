@@ -25,13 +25,18 @@ export default function AuthScreen() {
         });
       }
     } catch (err) {
-      const detail = err.response?.data?.detail;
+      const responseData = err.response?.data;
+      const detail = responseData?.detail;
+      const status = err.response?.status;
+
       if (Array.isArray(detail)) {
         setError(detail.map(e => e.msg || JSON.stringify(e)).join(', '));
       } else if (typeof detail === 'string') {
         setError(detail);
+      } else if (status === 401) {
+        setError('Incorrect email or password. If this is the production app, please register there first.');
       } else {
-        setError(err.response?.data?.message || 'Authentication failed');
+        setError(responseData?.message || err.message || 'Authentication failed');
       }
     } finally {
       setLoading(false);

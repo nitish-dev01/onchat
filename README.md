@@ -35,6 +35,10 @@ chat-app/
    ```
    VITE_API_URL=https://your-railway-app.railway.app/api/v1
    ```
+   Or, if frontend and backend share the same origin, use a relative path:
+   ```
+   VITE_API_URL=/api/v1
+   ```
 3. Deploy
 
 **Vercel Free Tier:** 100GB bandwidth, unlimited deployments

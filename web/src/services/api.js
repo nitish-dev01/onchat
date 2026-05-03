@@ -2,16 +2,21 @@ import axios from 'axios';
 
 const rawApiUrl = import.meta.env.VITE_API_URL;
 const isFullUrl = (value) => typeof value === 'string' && /^https?:\/\//i.test(value);
+const isRelativePath = (value) => typeof value === 'string' && value.startsWith('/');
 
 const API_URL = (() => {
   if (rawApiUrl) {
-    if (!isFullUrl(rawApiUrl)) {
-      console.error(
-        'Invalid VITE_API_URL. It must be a full URL including protocol and hostname, for example https://your-railway-app.railway.app/api/v1'
-      );
-      return 'http://localhost:8000/api/v1';
+    if (isFullUrl(rawApiUrl)) {
+      return rawApiUrl;
     }
-    return rawApiUrl;
+    if (isRelativePath(rawApiUrl)) {
+      return `${window.location.origin}${rawApiUrl}`;
+    }
+
+    console.error(
+      'Invalid VITE_API_URL. Use either a full URL like https://your-railway-app.railway.app/api/v1 or a relative path like /api/v1 when frontend and backend share the same origin.'
+    );
+    return 'http://localhost:8000/api/v1';
   }
   return 'http://localhost:8000/api/v1';
 })();
