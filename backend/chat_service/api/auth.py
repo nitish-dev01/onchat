@@ -5,7 +5,7 @@ from datetime import timedelta
 from chat_service.models.database import get_db
 from chat_service.models.models import User
 from chat_service.schemas.schemas import (
-    UserCreate, UserResponse, UserUpdate, LoginRequest, Token, UserPresence
+    UserCreate, UserResponse, UserUpdate, LoginRequest, TokenWithUser, UserPresence
 )
 from chat_service.core.auth import (
     get_password_hash, verify_password, create_access_token, get_current_user
@@ -15,7 +15,7 @@ from chat_service.core.config import settings
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 
-@router.post("/register", response_model=Token, status_code=201)
+@router.post("/register", response_model=TokenWithUser, status_code=201)
 async def register(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
     # Check if email exists
     result = await db.execute(select(User).where(User.email == user_data.email))
@@ -65,7 +65,7 @@ async def register(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
     }
 
 
-@router.post("/login", response_model=Token)
+@router.post("/login", response_model=TokenWithUser)
 async def login(login_data: LoginRequest, db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(User).where(User.email == login_data.email))
     user = result.scalar_one_or_none()

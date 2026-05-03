@@ -57,6 +57,10 @@ class Token(BaseModel):
     token_type: str = "bearer"
 
 
+class TokenWithUser(Token):
+    user: UserResponse
+
+
 class TokenData(BaseModel):
     user_id: Optional[int] = None
 
