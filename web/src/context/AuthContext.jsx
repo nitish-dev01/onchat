@@ -30,7 +30,7 @@ export function AuthProvider({ children }) {
       socket.connect(token);
     }
     setLoading(false);
-  }, []);
+  }, [token]);
 
   const login = async (email, password) => {
     const response = await api.post('/auth/login', { email, password });

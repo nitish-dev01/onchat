@@ -33,6 +33,13 @@ const parseResponse = (request) => request.then((response) => response.data);
 
 let authToken = null;
 
+// Initialize token from localStorage if it exists
+const initToken = localStorage.getItem('token');
+if (initToken && initToken !== 'undefined') {
+  api.defaults.headers.common['Authorization'] = `Bearer ${initToken}`;
+  authToken = initToken;
+}
+
 api.setToken = (token) => {
   authToken = token;
   if (token) {
@@ -73,25 +80,25 @@ export const unblockUser = (id) => parseResponse(api.post(`/users/unblock/${id}`
 export const getBlockedUsers = () => parseResponse(api.get('/users/blocked'));
 
 // Channels
-export const createChannel = (data) => api.post('/channels/', data);
-export const getMyChannels = () => api.get('/channels/');
-export const getChannel = (id) => api.get(`/channels/${id}`);
-export const updateChannel = (id, data) => api.put(`/channels/${id}`, data);
-export const deleteChannel = (id) => api.delete(`/channels/${id}`);
-export const addMember = (channelId, userId) => api.post(`/channels/${channelId}/members/${userId}`);
-export const removeMember = (channelId, userId) => api.delete(`/channels/${channelId}/members/${userId}`);
-export const getChannelMembers = (channelId) => api.get(`/channels/${channelId}/members`);
-export const createDirectChannel = (userId) => api.post(`/channels/direct/${userId}`);
+export const createChannel = (data) => parseResponse(api.post('/channels/', data));
+export const getMyChannels = () => parseResponse(api.get('/channels/'));
+export const getChannel = (id) => parseResponse(api.get(`/channels/${id}`));
+export const updateChannel = (id, data) => parseResponse(api.put(`/channels/${id}`, data));
+export const deleteChannel = (id) => parseResponse(api.delete(`/channels/${id}`));
+export const addMember = (channelId, userId) => parseResponse(api.post(`/channels/${channelId}/members/${userId}`));
+export const removeMember = (channelId, userId) => parseResponse(api.delete(`/channels/${channelId}/members/${userId}`));
+export const getChannelMembers = (channelId) => parseResponse(api.get(`/channels/${channelId}/members`));
+export const createDirectChannel = (userId) => parseResponse(api.post(`/channels/direct/${userId}`));
 
 // Messages
-export const sendMessage = (data) => api.post('/messages/', data);
+export const sendMessage = (data) => parseResponse(api.post('/messages/', data));
 export const getChannelMessages = (channelId, page = 1, pageSize = 50) =>
-  api.get(`/messages/channel/${channelId}`, { params: { page, page_size: pageSize } });
-export const editMessage = (id, content) => api.put(`/messages/${id}`, { content });
-export const deleteMessage = (id) => api.delete(`/messages/${id}`);
-export const addReaction = (messageId, emoji) => api.post(`/messages/${messageId}/reactions`, { emoji });
-export const removeReaction = (messageId, emoji) => api.delete(`/messages/${messageId}/reactions/${emoji}`);
+  parseResponse(api.get(`/messages/channel/${channelId}`, { params: { page, page_size: pageSize } }));
+export const editMessage = (id, content) => parseResponse(api.put(`/messages/${id}`, { content }));
+export const deleteMessage = (id) => parseResponse(api.delete(`/messages/${id}`));
+export const addReaction = (messageId, emoji) => parseResponse(api.post(`/messages/${messageId}/reactions`, { emoji }));
+export const removeReaction = (messageId, emoji) => parseResponse(api.delete(`/messages/${messageId}/reactions/${emoji}`));
 export const searchMessages = (query, channelId) =>
-  api.post('/messages/search', { query, channel_id: channelId });
+  parseResponse(api.post('/messages/search', { query, channel_id: channelId }));
 
 export default api;
