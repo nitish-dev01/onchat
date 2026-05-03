@@ -75,10 +75,17 @@ const notifyListeners = (event, data) => {
 };
 
 const parseToken = (token) => {
+  if (!token || typeof token !== 'string') return null;
+
+  const parts = token.split('.');
+  if (parts.length < 2 || !parts[1]) return null;
+
   try {
-    const payload = token.split('.')[1];
-    return JSON.parse(atob(payload)).sub;
-  } catch {
+    const payload = atob(parts[1]);
+    const parsed = JSON.parse(payload);
+    return parsed?.sub ?? null;
+  } catch (error) {
+    console.warn('Failed to parse auth token payload:', error);
     return null;
   }
 };

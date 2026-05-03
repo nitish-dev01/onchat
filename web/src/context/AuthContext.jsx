@@ -10,12 +10,18 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (token) {
+    const hasValidToken = token && token !== 'undefined';
+
+    if (hasValidToken) {
       api.setToken(token);
       // User data is stored in localStorage after login
       const userData = localStorage.getItem('user');
       if (userData) {
-        setUser(JSON.parse(userData));
+        try {
+          setUser(JSON.parse(userData));
+        } catch (error) {
+          console.warn('Invalid stored user data:', error);
+        }
       }
       socket.connect(token);
     }
