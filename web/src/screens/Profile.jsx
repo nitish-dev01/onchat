@@ -19,9 +19,18 @@ export default function Profile() {
       const data = await getMe();
       setProfile(data);
       setFormData({ fullName: data.full_name || '', bio: data.bio || '' });
-      try { setBlockedUsers(await getBlockedUsers()); } catch {}
-    } catch {}
-    finally { setLoading(false); }
+      try {
+        const blocked = await getBlockedUsers();
+        setBlockedUsers(Array.isArray(blocked) ? blocked : []);
+      } catch (error) {
+        console.error('Failed to load blocked users:', error);
+        setBlockedUsers([]);
+      }
+    } catch (error) {
+      console.error('Failed to load profile:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSave = async () => {

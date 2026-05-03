@@ -29,6 +29,8 @@ const api = axios.create({
   headers: { 'Content-Type': 'application/json' },
 });
 
+const parseResponse = (request) => request.then((response) => response.data);
+
 let authToken = null;
 
 api.setToken = (token) => {
@@ -55,20 +57,20 @@ api.interceptors.response.use(
 );
 
 // Auth
-export const login = (email, password) => api.post('/auth/login', { email, password });
-export const register = (data) => api.post('/auth/register', data);
-export const getMe = () => api.get('/auth/me');
-export const updateMe = (data) => api.put('/auth/me', data);
+export const login = (email, password) => parseResponse(api.post('/auth/login', { email, password }));
+export const register = (data) => parseResponse(api.post('/auth/register', data));
+export const getMe = () => parseResponse(api.get('/auth/me'));
+export const updateMe = (data) => parseResponse(api.put('/auth/me', data));
 
 // Users
-export const searchUsers = (query) => api.get('/users/search', { params: { q: query } });
-export const getUser = (id) => api.get(`/users/${id}`);
-export const getContacts = () => api.get('/users/');
-export const addContact = (id) => api.post(`/users/contacts/${id}`);
-export const removeContact = (id) => api.delete(`/users/contacts/${id}`);
-export const blockUser = (id) => api.post(`/users/block/${id}`);
-export const unblockUser = (id) => api.post(`/users/unblock/${id}`);
-export const getBlockedUsers = () => api.get('/users/blocked');
+export const searchUsers = (query) => parseResponse(api.get('/users/search', { params: { q: query } }));
+export const getUser = (id) => parseResponse(api.get(`/users/${id}`));
+export const getContacts = () => parseResponse(api.get('/users/'));
+export const addContact = (id) => parseResponse(api.post(`/users/contacts/${id}`));
+export const removeContact = (id) => parseResponse(api.delete(`/users/contacts/${id}`));
+export const blockUser = (id) => parseResponse(api.post(`/users/block/${id}`));
+export const unblockUser = (id) => parseResponse(api.post(`/users/unblock/${id}`));
+export const getBlockedUsers = () => parseResponse(api.get('/users/blocked'));
 
 // Channels
 export const createChannel = (data) => api.post('/channels/', data);

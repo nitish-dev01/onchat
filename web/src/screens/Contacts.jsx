@@ -27,8 +27,15 @@ export default function Contacts() {
   };
 
   const loadContacts = async () => {
-    try { const data = await getContacts(); setContacts(data); } catch {}
-    finally { setLoading(false); }
+    try {
+      const data = await getContacts();
+      setContacts(Array.isArray(data) ? data : []);
+    } catch (error) {
+      console.error('Failed to load contacts:', error);
+      setContacts([]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSearch = async (e) => {
