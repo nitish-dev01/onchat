@@ -16,12 +16,16 @@ export function AuthProvider({ children }) {
       api.setToken(token);
       // User data is stored in localStorage after login
       const userData = localStorage.getItem('user');
-      if (userData) {
+      if (userData && userData !== 'undefined') {
         try {
           setUser(JSON.parse(userData));
         } catch (error) {
-          console.warn('Invalid stored user data:', error);
+          console.warn('Invalid stored user data, clearing:', error);
+          localStorage.removeItem('user');
         }
+      } else if (userData === 'undefined') {
+        // Clean up the string "undefined" that may have been stored
+        localStorage.removeItem('user');
       }
       socket.connect(token);
     }
@@ -31,23 +35,27 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     const response = await api.post('/auth/login', { email, password });
     const { access_token, user } = response.data;
-    localStorage.setItem('token', access_token);
-    localStorage.setItem('user', JSON.stringify(user));
-    api.setToken(access_token);
-    setToken(access_token);
-    setUser(user);
-    socket.connect(access_token);
+    if (access_token && user) {
+      localStorage.setItem('token', access_token);
+      localStorage.setItem('user', JSON.stringify(user));
+      api.setToken(access_token);
+      setToken(access_token);
+      setUser(user);
+      socket.connect(access_token);
+    }
   };
 
   const register = async (data) => {
     const response = await api.post('/auth/register', data);
     const { access_token, user } = response.data;
-    localStorage.setItem('token', access_token);
-    localStorage.setItem('user', JSON.stringify(user));
-    api.setToken(access_token);
-    setToken(access_token);
-    setUser(user);
-    socket.connect(access_token);
+    if (access_token && user) {
+      localStorage.setItem('token', access_token);
+      localStorage.setItem('user', JSON.stringify(user));
+      api.setToken(access_token);
+      setToken(access_token);
+      setUser(user);
+      socket.connect(access_token);
+    }
   };
 
   const logout = () => {
