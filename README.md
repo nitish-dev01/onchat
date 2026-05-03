@@ -33,7 +33,7 @@ chat-app/
 1. Go to vercel.com → New Project → Import `web/` folder
 2. Add environment variable:
    ```
-   VITE_API_URL=https://your-railway-app.railway.app
+   VITE_API_URL=https://your-railway-app.railway.app/api/v1
    ```
 3. Deploy
 

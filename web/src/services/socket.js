@@ -1,6 +1,16 @@
 import { io } from 'socket.io-client';
 
-const SOCKET_URL = import.meta.env.VITE_API_URL?.replace('/api/v1', '') || 'http://localhost:8000';
+const rawApiUrl = import.meta.env.VITE_API_URL;
+const isFullUrl = (value) => typeof value === 'string' && /^https?:\/\//i.test(value);
+const SOCKET_URL = (() => {
+  if (rawApiUrl && isFullUrl(rawApiUrl)) {
+    return rawApiUrl.replace('/api/v1', '');
+  }
+  if (rawApiUrl && !isFullUrl(rawApiUrl)) {
+    console.error('Invalid VITE_API_URL for socket connection. Use a full URL like https://your-railway-app.railway.app/api/v1');
+  }
+  return 'http://localhost:8000';
+})();
 
 let socket = null;
 const listeners = {};

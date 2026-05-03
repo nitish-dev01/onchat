@@ -1,6 +1,20 @@
 import axios from 'axios';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000/api/v1';
+const rawApiUrl = import.meta.env.VITE_API_URL;
+const isFullUrl = (value) => typeof value === 'string' && /^https?:\/\//i.test(value);
+
+const API_URL = (() => {
+  if (rawApiUrl) {
+    if (!isFullUrl(rawApiUrl)) {
+      console.error(
+        'Invalid VITE_API_URL. It must be a full URL including protocol and hostname, for example https://your-railway-app.railway.app/api/v1'
+      );
+      return 'http://localhost:8000/api/v1';
+    }
+    return rawApiUrl;
+  }
+  return 'http://localhost:8000/api/v1';
+})();
 
 console.log('API_URL:', API_URL); // Debug log
 
