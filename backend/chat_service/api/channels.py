@@ -35,6 +35,7 @@ async def create_channel(
     )
     db.add(user_channel)
     await db.flush()
+    await db.commit()
     await db.refresh(channel)
 
     return channel

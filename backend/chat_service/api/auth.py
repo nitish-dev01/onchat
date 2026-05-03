@@ -37,6 +37,7 @@ async def register(user_data: UserCreate, db: AsyncSession = Depends(get_db)):
     )
     db.add(user)
     await db.flush()
+    await db.commit()
     await db.refresh(user)
 
     # Create and return access token
@@ -121,6 +122,7 @@ async def update_me(
         current_user.avatar_url = user_update.avatar_url
 
     await db.flush()
+    await db.commit()
     await db.refresh(current_user)
     return current_user
 
@@ -133,6 +135,7 @@ async def update_presence(
 ):
     current_user.is_online = is_online
     await db.flush()
+    await db.commit()
 
     return UserPresence(
         user_id=current_user.id,

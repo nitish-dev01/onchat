@@ -104,6 +104,7 @@ async def add_contact(
     contact = Contact(user_id=current_user.id, contact_id=user_id)
     db.add(contact)
     await db.flush()
+    await db.commit()
 
     return {"message": "Contact added"}
 
@@ -129,6 +130,7 @@ async def remove_contact(
 
     await db.delete(contact)
     await db.flush()
+    await db.commit()
 
     return {"message": "Contact removed"}
 

@@ -40,6 +40,7 @@ async def send_message(
     )
     db.add(message)
     await db.flush()
+    await db.commit()
 
     # Get sender info
     await db.refresh(message)
