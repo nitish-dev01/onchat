@@ -1,19 +1,31 @@
+:root {
+  --color-background-primary: #FFFFFF;
+  --color-background-secondary: #F7F7F7;
+  --color-text-primary: #1F2937;
+  --color-text-secondary: #6B7280;
+  --color-text-tertiary: #9CA3AF;
+  --color-border-tertiary: #D1D5DB;
+  --border-radius-md: 8px;
+}
+
 .contacts {
   display: flex;
   flex-direction: column;
   height: 100%;
+  background: var(--color-background-primary);
 }
 
 .contacts-header {
-  padding: 20px;
-  background: white;
-  border-bottom: 1px solid #e0e0e0;
+  padding: 16px;
+  background: var(--color-background-primary);
+  border-bottom: 0.5px solid var(--color-border-tertiary);
 }
 
 .contacts-header h1 {
-  font-size: 24px;
-  font-weight: 700;
-  color: #333;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0;
 }
 
 .contacts-loading {
@@ -21,38 +33,46 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: #666;
+  color: var(--color-text-secondary);
+  font-size: 14px;
 }
 
 .search-container {
-  padding: 15px 20px;
-  background: white;
-  border-bottom: 1px solid #e0e0e0;
+  padding: 12px 16px;
+  background: var(--color-background-primary);
+  border-bottom: 0.5px solid var(--color-border-tertiary);
 }
 
 .search-container input {
   width: 100%;
-  padding: 12px 16px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 15px;
+  padding: 10px 14px;
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-md);
+  font-size: 14px;
+  background: var(--color-background-secondary);
+  color: var(--color-text-primary);
+  font-family: inherit;
+}
+
+.search-container input::placeholder {
+  color: var(--color-text-tertiary);
 }
 
 .search-container input:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #534AB7;
 }
 
 .search-spinner {
   display: inline-block;
   margin-left: 10px;
-  color: #999;
+  color: var(--color-text-tertiary);
 }
 
 .contacts-list {
   flex: 1;
   overflow-y: auto;
-  background: white;
+  background: var(--color-background-primary);
 }
 
 .contacts-empty {
@@ -60,50 +80,52 @@
   align-items: center;
   justify-content: center;
   height: 200px;
-  color: #999;
-  font-size: 16px;
+  color: var(--color-text-tertiary);
+  font-size: 14px;
 }
 
 .contact-item {
   display: flex;
   align-items: center;
-  padding: 15px 20px;
-  border-bottom: 1px solid #f0f0f0;
+  padding: 12px 16px;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
   cursor: pointer;
   gap: 12px;
+  transition: background 0.15s;
 }
 
 .contact-item:hover {
-  background: #f8f8f8;
+  background: var(--color-background-secondary);
 }
 
 .contact-avatar {
-  width: 45px;
-  height: 45px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  background: #34C759;
+  background: #10B981;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   position: relative;
+  flex-shrink: 0;
 }
 
 .status-dot {
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: #ccc;
+  background: #D1D5DB;
   border: 2px solid white;
 }
 
 .status-dot.online {
-  background: #2ecc71;
+  background: #10B981;
 }
 
 .contact-info {
@@ -114,32 +136,45 @@
 }
 
 .contact-name {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
-  color: #333;
+  color: var(--color-text-primary);
 }
 
 .contact-email, .contact-status {
-  font-size: 13px;
-  color: #666;
+  font-size: 12px;
+  color: var(--color-text-secondary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .add-contact-btn, .chat-btn {
-  padding: 8px 12px;
+  padding: 6px 12px;
   border: none;
-  border-radius: 6px;
-  font-size: 14px;
+  border-radius: var(--border-radius-md);
+  font-size: 13px;
   cursor: pointer;
+  transition: all 0.15s;
+  font-weight: 500;
 }
 
 .add-contact-btn {
-  background: #667eea;
-  color: white;
+  background: #534AB7;
+  color: #EEEDFE;
+}
+
+.add-contact-btn:hover {
+  background: #3C3489;
 }
 
 .chat-btn {
-  background: #f0f0f0;
+  background: transparent;
+  border: 0.5px solid var(--color-border-tertiary);
+  color: var(--color-text-secondary);
+}
+
+.chat-btn:hover {
+  background: var(--color-background-secondary);
+  color: var(--color-text-primary);
 }

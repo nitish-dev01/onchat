@@ -1,8 +1,19 @@
+:root {
+  --color-background-primary: #FFFFFF;
+  --color-background-secondary: #F7F7F7;
+  --color-text-primary: #1F2937;
+  --color-text-secondary: #6B7280;
+  --color-text-tertiary: #9CA3AF;
+  --color-border-tertiary: #D1D5DB;
+  --border-radius-md: 8px;
+}
+
 .profile {
   display: flex;
   flex-direction: column;
   height: 100%;
   overflow-y: auto;
+  background: var(--color-background-primary);
 }
 
 .profile-loading {
@@ -10,45 +21,48 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  color: #666;
+  color: var(--color-text-secondary);
+  font-size: 14px;
 }
 
 .profile-header {
   display: flex;
   align-items: center;
   gap: 20px;
-  padding: 30px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 24px;
+  background: linear-gradient(135deg, #534AB7 0%, #3C3489 100%);
   color: white;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
 }
 
 .profile-avatar {
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
   background: white;
-  color: #667eea;
+  color: #534AB7;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 700;
+  flex-shrink: 0;
 }
 
 .profile-info h2 {
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 600;
   margin-bottom: 4px;
 }
 
 .profile-info p {
-  font-size: 14px;
+  font-size: 13px;
   opacity: 0.9;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .profile-status {
-  font-size: 13px;
+  font-size: 12px;
   opacity: 0.8;
 }
 
@@ -58,103 +72,132 @@
 
 .profile-section {
   padding: 20px;
-  background: white;
-  border-bottom: 1px solid #e0e0e0;
+  background: var(--color-background-primary);
+  border-bottom: 0.5px solid var(--color-border-tertiary);
 }
 
 .profile-section h3 {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
-  color: #333;
-  margin-bottom: 15px;
+  color: var(--color-text-primary);
+  margin-bottom: 12px;
 }
 
 .edit-form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .edit-form input, .edit-form textarea {
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 15px;
+  padding: 10px 12px;
+  border: 0.5px solid var(--color-border-secondary);
+  border-radius: var(--border-radius-md);
+  font-size: 14px;
+  background: var(--color-background-secondary);
+  color: var(--color-text-primary);
+  font-family: inherit;
+}
+
+.edit-form input::placeholder, .edit-form textarea::placeholder {
+  color: var(--color-text-tertiary);
 }
 
 .edit-form input:focus, .edit-form textarea:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #534AB7;
 }
 
 .edit-buttons {
   display: flex;
   gap: 10px;
   justify-content: flex-end;
+  margin-top: 8px;
 }
 
 .cancel-btn, .save-btn, .edit-btn {
-  padding: 10px 20px;
+  padding: 8px 16px;
   border: none;
-  border-radius: 8px;
-  font-size: 14px;
+  border-radius: var(--border-radius-md);
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
+  transition: all 0.15s;
 }
 
 .cancel-btn {
-  background: #f0f0f0;
-  color: #666;
+  background: var(--color-background-secondary);
+  color: var(--color-text-secondary);
+}
+
+.cancel-btn:hover {
+  background: var(--color-border-tertiary);
+  color: var(--color-text-primary);
 }
 
 .save-btn {
-  background: #667eea;
-  color: white;
+  background: #534AB7;
+  color: #EEEDFE;
+}
+
+.save-btn:hover {
+  background: #3C3489;
 }
 
 .edit-btn {
   width: 100%;
-  background: #f0f0f0;
-  color: #667eea;
+  background: var(--color-background-secondary);
+  color: #534AB7;
+}
+
+.edit-btn:hover {
+  background: var(--color-border-tertiary);
 }
 
 .no-blocked {
-  color: #999;
-  font-size: 14px;
+  color: var(--color-text-tertiary);
+  font-size: 13px;
 }
 
 .blocked-user {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid #f0f0f0;
+  padding: 10px 0;
+  border-bottom: 0.5px solid var(--color-border-tertiary);
 }
 
 .blocked-user span {
-  font-size: 15px;
+  font-size: 14px;
+  color: var(--color-text-primary);
 }
 
 .blocked-user button {
   background: none;
   border: none;
-  color: #667eea;
-  font-size: 14px;
+  color: #534AB7;
+  font-size: 13px;
   cursor: pointer;
+  transition: color 0.15s;
+}
+
+.blocked-user button:hover {
+  color: #3C3489;
 }
 
 .logout-btn {
   margin: 20px;
-  padding: 14px;
-  background: #e74c3c;
+  padding: 12px;
+  background: #EF4444;
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 16px;
+  border-radius: var(--border-radius-md);
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
+  transition: background 0.2s;
 }
 
 .logout-btn:hover {
-  background: #c0392b;
+  background: #DC2626;
 }
